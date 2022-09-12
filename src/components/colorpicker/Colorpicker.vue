@@ -112,7 +112,7 @@ import ColorpickerHSLRepresentationTriangle from './ColorpickerHSLRepresentation
 import ColorpickerHSLRepresentationSquare from './ColorpickerHSLRepresentationSquare'
 import ColorpickerAlphaSlider from './ColorpickerAlphaSlider'
 
-const defaultColorFormatter = (color, vm) => {
+const defaultColorFormatter = (color) => {
     if (color.alpha < 1) {
         return color.toString('hexa')
     } else {
@@ -120,7 +120,7 @@ const defaultColorFormatter = (color, vm) => {
     }
 }
 
-const defaultColorParser = (color, vm) => {
+const defaultColorParser = (color) => {
     return Color.parse(color)
 }
 
@@ -172,21 +172,27 @@ export default {
         },
         colorFormatter: {
             type: Function,
-            default: (color, vm) => {
-                if (typeof config.defaultColorFormatter === 'function') {
-                    return config.defaultColorFormatter(color)
-                } else {
-                    return defaultColorFormatter(color, vm)
+            default: (color) => {
+                try {
+                    if (typeof config.defaultColorFormatter === 'function') {
+                        return config.defaultColorFormatter(color)
+                    } else {
+                        return defaultColorFormatter(color)
+                    }
+                } catch (error) {
                 }
             }
         },
         colorParser: {
             type: Function,
-            default: (color, vm) => {
-                if (typeof config.defaultColorParser === 'function') {
-                    return config.defaultColorParser(color)
-                } else {
-                    return defaultColorParser(color, vm)
+            default: (color) => {
+                try {
+                    if (typeof config.defaultColorParser === 'function') {
+                        return config.defaultColorParser(color)
+                    } else {
+                        return defaultColorParser(color)
+                    }
+                } catch (error) {
                 }
             }
         },
